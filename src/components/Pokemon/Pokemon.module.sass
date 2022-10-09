@@ -1,0 +1,40 @@
+.PokemonItemContainer
+    display: inline-block
+    width: 20%
+    padding: 10px
+    box-sizing: border-box
+
+    @media screen and (max-width: 800px) 
+        width: 25%
+
+    @media screen and (max-width: 660px) 
+        width: 33.33%
+
+    @media screen and (max-width: 480px) 
+        width: 50%
+
+    @media screen and (max-width: 390px) 
+        width: 100%
+
+    .Pokemon
+        margin: 0 auto
+        padding: 15px
+        border: solid 1px #ccc
+        height: 140px
+        text-align: center
+        border-radius: 5px
+        background: #fff
+        max-width: 120px
+
+        .ImageContainer 
+            display: block
+            background: #eee
+            height: 100px
+
+            div // loader
+                margin: 0 auto
+                padding: 15px 0 
+                
+    .PokemonTitle 
+        text-align: center
+        padding: 3px
