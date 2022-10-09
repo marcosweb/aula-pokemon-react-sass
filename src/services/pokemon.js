@@ -1,14 +1,20 @@
 import axios from "axios";
 
-const baseUrl = 'https://pokeapi.co/api/v2';
+const baseUrl = 'https://pokeapi.co/api/v2/pokemon/';
+const localStorageKey = 'pokemons-cart';
 
-export function getAll() {
-    return axios.get(baseUrl + '/pokemon/');
+export function get(url) {
+    return axios.get(url || baseUrl)
 }
 
-export function getPokemon(url) {
-    return axios.get(url)
+export function getCart() {
+    const storageData = localStorage.getItem(localStorageKey);
+    if (storageData.length) return JSON.parse(storageData);
+    return [];
 }
 
-export default { getAll, getPokemon }
+export function save(pokemons) {
+    localStorage.setItem(localStorageKey, JSON.stringify(pokemons));
+}
 
+export default get

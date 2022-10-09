@@ -5,11 +5,45 @@
     list-style: none
 
 body
-    padding: 30px
-    background: #f8f6f6
-
-.PokemonList 
     position: relative
-    margin: 20px auto
-    max-width: 800px
+    background: #e2e1e1
 
+.Main 
+    position: relative
+    width: 100%
+    background: pink
+
+.PokemonsContainer
+    height: 100vh
+    
+    @extend .Container
+    left: 0
+    width: 70%
+    border-right: solid 1px #ccc
+    background: #f3f2f2
+
+    .PokemonList 
+        position: relative
+        margin: 20px auto
+        max-width: 800px
+
+.CartContainer
+    @extend .Container
+    right: 0
+    width: 30%
+
+    .Cart
+        padding: 10px
+        height: 300px
+
+.Container
+    position: absolute
+    top: 0
+
+.Error 
+    padding: 10px
+    width: 50%
+    margin: 10px auto
+    background: pink
+    color: red
+    border-radius: 3px

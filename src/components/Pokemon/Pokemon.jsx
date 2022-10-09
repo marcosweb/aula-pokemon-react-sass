@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ReactLoading from "react-loading";
-import { getPokemon } from '../../services/pokemon';
+import getPokemonDetails from '../../services/pokemon';
 import styles from './Pokemon.module.sass';
 
 const Pokemon = ({ pokemon }) => {
     const [item, setItem] = useState({});
 
     useEffect(() => {
-        getPokemon(pokemon.url).then((resp) => {
+        getPokemonDetails(pokemon.url).then((resp) => {
             setItem(() => resp.data);
-            console.log('Pokemon ', pokemon)
         });
     }, []);
 
