@@ -5,18 +5,31 @@
 import React from 'react';
 import styles from './App.module.sass';
 
-import getPokemons from './services/pokemon';
+import getPokemons, { save, getCart, cartRemove } from './services/pokemon';
 import { useCallback, useEffect, useState } from 'react';
 import Pokemon from './components/Pokemon/Pokemon';
 import Pagination from './components/Pagination/Pagination';
+import Cart from './components/Cart/Cart';
 
 function App() {
     const [apiData, setApiData] = useState({});
     const [error, setError] = useState('');
+    const [cartData, setCartData] = useState([]);
 
     const updateList = useCallback((url) => (getData(url)), [setApiData]);
 
+    const savePokemon = (pokemon) => {
+        save(pokemon);
+        setCartData(getCart());
+    };
+
+    const removeCart = (pokemon) => {
+        cartRemove(pokemon);
+        setCartData(getCart());
+    }
+
     const getData = (url) => {
+        setCartData(getCart());
         getPokemons(url)
             .then((resp) => (setApiData(resp.data)))
             .catch(error => (setError({ error: error.message })));
@@ -35,6 +48,7 @@ function App() {
                             <Pokemon
                                 key={pokemon.name}
                                 pokemon={pokemon}
+                                handleClick={savePokemon}
                             />
                         )
                     })}
@@ -44,13 +58,11 @@ function App() {
                 </div>
             </li>
             <li className={styles.CartContainer}>
-                <Cart />
+                <Cart data={cartData} remove={removeCart} />
             </li>
         </ul>
     );
 }
 
-
-const Cart = () => <h2 className={styles.Cart}>Cart</h2>
 
 export default React.memo(App);

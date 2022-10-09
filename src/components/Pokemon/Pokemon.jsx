@@ -3,7 +3,7 @@ import ReactLoading from "react-loading";
 import getPokemonDetails from '../../services/pokemon';
 import styles from './Pokemon.module.sass';
 
-const Pokemon = ({ pokemon }) => {
+const Pokemon = ({ pokemon, handleClick }) => {
     const [item, setItem] = useState({});
 
     useEffect(() => {
@@ -18,12 +18,12 @@ const Pokemon = ({ pokemon }) => {
 
     return (
         <li className={styles.PokemonItemContainer}>
-            <div className={styles.Pokemon}>
+            <a href='#' className={styles.Pokemon} onClick={() => (handleClick(item))}>
                 <div className={styles.ImageContainer}>
                     {image}
                 </div>
                 <p className={styles.PokemonTitle}>{pokemon.name}</p>
-            </div>
+            </a>
         </li>
     )
 };
