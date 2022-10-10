@@ -3,36 +3,37 @@ import axios from "axios";
 const baseUrl = 'https://pokeapi.co/api/v2/pokemon/';
 const localStorageKey = 'pokemons-cart';
 
-export function get(url) {
-    return axios.get(url || baseUrl)
+function get(url) {
+    return axios.get(url || baseUrl);
 }
 
-export function getCart() {
+function getCart() {
     const storageData = localStorage.getItem(localStorageKey);
     if (storageData) return JSON.parse(storageData);
     return [];
 }
 
-export function save(pokemon) {
+function save(newPokemon) {
     const pokemons = getCart();
-    const exists = pokemons.filter((item) => {
-        console.log(item.name, pokemon.name)
-        return item.name === pokemon.name;
+
+    const exists = pokemons.filter((item) => { // [{}]
+        return item.name === newPokemon.name;
     });
-    console.log(exists)
+
     if (exists.length === 0) {
-        pokemons.push(pokemon);
+        pokemons.push(newPokemon);
         localStorage.setItem(localStorageKey, JSON.stringify(pokemons));
     }
 }
 
-export function cartRemove(pokemon) {
+function cartRemove(pokemonToRemove) {
     const pokemons = getCart();
+
     const filtered = pokemons.filter(item => {
-        return item.name !== pokemon.name
+        return item.name !== pokemonToRemove.name
     });
-    console.log('pokemon ', pokemon);
+
     localStorage.setItem(localStorageKey, JSON.stringify(filtered));
 }
 
-export default get
+export default { get, getCart, save, cartRemove }

@@ -5,7 +5,7 @@
 import React from 'react';
 import styles from './App.module.sass';
 
-import getPokemons, { save, getCart, cartRemove } from './services/pokemon';
+import PokemonService from './services/pokemon';
 import { useCallback, useEffect, useState } from 'react';
 import Pokemon from './components/Pokemon/Pokemon';
 import Pagination from './components/Pagination/Pagination';
@@ -16,31 +16,35 @@ function App() {
     const [error, setError] = useState('');
     const [cartData, setCartData] = useState([]);
 
-    const updateList = useCallback((url) => (getData(url)), [setApiData]);
+    const updateList = (url) => getData(url);
 
-    const savePokemon = (pokemon) => {
-        save(pokemon);
-        setCartData(getCart());
+    const savePokemon = (item) => {
+        PokemonService.save(item);
+        setCartData(PokemonService.getCart());
     };
 
-    const removeCart = (pokemon) => {
-        cartRemove(pokemon);
-        setCartData(getCart());
+    const removeCart = (pokemonToRemove) => {
+        PokemonService.cartRemove(pokemonToRemove);
+        setCartData(PokemonService.getCart());
     }
 
     const getData = (url) => {
-        setCartData(getCart());
-        getPokemons(url)
+        PokemonService.get(url)
             .then((resp) => (setApiData(resp.data)))
-            .catch(error => (setError({ error: error.message })));
+            .catch((error) => (setError(error.message)));
     }
 
-    useEffect(() => (getData()), []);
+    useEffect(() => {
+        setCartData(PokemonService.getCart());
+        getData();
+    }, []);
+
     useEffect(() => (console.log(apiData)), [apiData]);
 
     return (
-        <ul className={styles.Main}>
-            <li className={styles.PokemonsContainer}>
+        <div className={styles.Main}>
+
+            <div className={styles.PokemonsContainer}>
                 {error.length > 0 && <div className={styles.Error}>{error}</div>}
                 <ul className={styles.PokemonList}>
                     {apiData.results?.map((pokemon) => {
@@ -56,13 +60,14 @@ function App() {
                 <div className={styles.PaginationContainer}>
                     <Pagination data={apiData} handleClick={updateList} />
                 </div>
-            </li>
-            <li className={styles.CartContainer}>
+            </div>
+
+            <div className={styles.CartContainer}>
                 <Cart data={cartData} remove={removeCart} />
-            </li>
-        </ul>
+            </div>
+
+        </div>
     );
 }
-
 
 export default React.memo(App);

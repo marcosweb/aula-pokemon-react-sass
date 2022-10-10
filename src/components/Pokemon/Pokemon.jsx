@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactLoading from "react-loading";
-import getPokemonDetails from '../../services/pokemon';
+import PokemonService from '../../services/pokemon';
 import styles from './Pokemon.module.sass';
 
 const Pokemon = ({ pokemon, handleClick }) => {
     const [item, setItem] = useState({});
 
     useEffect(() => {
-        getPokemonDetails(pokemon.url).then((resp) => {
+        PokemonService.get(pokemon.url).then((resp) => {
             setItem(() => resp.data);
         });
     }, []);
@@ -18,7 +18,7 @@ const Pokemon = ({ pokemon, handleClick }) => {
 
     return (
         <li className={styles.PokemonItemContainer}>
-            <a href='#' className={styles.Pokemon} onClick={() => (handleClick(item))}>
+            <a href='#' className={styles.Pokemon} onClick={() => handleClick(item)}>
                 <div className={styles.ImageContainer}>
                     {image}
                 </div>
